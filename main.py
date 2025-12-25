@@ -1354,7 +1354,7 @@ def manager_category_delete(cat_id):
 # UPDATED Chatbot API (FULL INTEGRATION)
 # -----------------------------
 if GEMINI_AVAILABLE:
-    genai.configure(api_key=os.getenv("GOOGLE_API_KEY", "AIzaSyAuKGRRGZvHbpQXnUNjIuS5Se1ykYjzvcQ"))
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY", "GOOGLE_API_KEY"))
     model = genai.GenerativeModel(os.getenv("GEMINI_MODEL", "gemma-3-4b-it"))
 def is_vibe_message(text: str) -> bool:
     vibe_keywords = [
