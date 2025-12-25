@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu Availability | Compiler Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: url("https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=1600&q=80")
+        center/cover no-repeat;
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(20, 20, 20, 0.9);
+      box-shadow: 0 0 15px rgba(255, 183, 0, 0.3);
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffb700;
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+
+    nav a {
+      color: #ffb700;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 120px auto;
+      background: rgba(25, 25, 25, 0.85);
+      border-radius: 25px;
+      padding: 50px 40px;
+      box-shadow: 0 0 25px rgba(255, 183, 0, 0.25);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1s ease-out;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffb700;
+      font-size: 2.3rem;
+      margin-bottom: 40px;
+      text-shadow: 0 0 15px rgba(255, 183, 0, 0.4);
+      letter-spacing: 1px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+    }
+
+    .item {
+      background: rgba(40, 40, 40, 0.9);
+      border-radius: 18px;
+      padding: 25px 25px;
+      box-shadow: 0 0 15px rgba(255, 183, 0, 0.1);
+      border: 1px solid rgba(255, 183, 0, 0.15);
+      transition: all 0.3s ease;
+      animation: popIn 0.6s ease-out;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(255, 183, 0, 0.4);
+    }
+
+    .item.in-stock {
+      border: 1px solid rgba(0, 255, 0, 0.4);
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    }
+
+    .item.out-stock {
+      border: 1px solid rgba(255, 0, 0, 0.4);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+    }
+
+    .item span {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #ddd;
+    }
+
+    .in-stock span {
+      color: #00ff99;
+    }
+
+    .out-stock span {
+      color: #ff5555;
+    }
+
+    .toggle-btn {
+      background: #ffb700;
+      color: #000;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 183, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .toggle-btn:hover {
+      background: #ffc933;
+      transform: scale(1.07);
+      box-shadow: 0 0 25px rgba(255, 183, 0, 0.6);
+    }
+
+    .no-items {
+      text-align: center;
+      color: #ccc;
+      font-size: 1.1rem;
+      margin-top: 40px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(20, 20, 20, 0.9);
+  box-shadow: 0 0 15px rgba(255, 183, 0, 0.3);
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+/* clickable golden logo with animation */
+nav .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffb700;
+  font-weight: 700;
+  font-size: 1.6rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+nav .logo:hover {
+  color: #fff;
+  text-shadow: 0 0 10px #ffb700, 0 0 20px #ffb700;
+  transform: scale(1.05) rotate(-2deg);
+}
+
+nav .right-links a {
+  color: #ffb700;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+nav .right-links a:hover {
+  color: #fff;
+}
+
+/* LOGO + TEXT WRAPPER */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* LOGO IMAGE */
+.nav-logo-img {
+  height: 42px;
+  width: auto;
+  border-radius: 10px;
+  transition: 0.3s ease-in-out;
+}
+
+/* Subtle hover animation */
+.nav-left:hover .nav-logo-img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 0, 0.6));
+}
+
+
+
+    /* animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+  <a href="{{ url_for('staff_dashboard') }}" class="nav-left">
+  <img 
+    src="{{ url_for('static', filename='images/logo.png') }}"
+    class="nav-logo-img"
+    alt="Logo"
+  >
+  <div class="logo">Compiler Cafe</div>
+</a>
+
+  <div class="right-links">
+    <a href="{{ url_for('logout') }}">🚪 Logout</a>
+  </div>
+</nav>
+
+
+  </nav>
+
+  <div class="container">
+    <h1>🍽 Menu Availability</h1>
+
+    {% if items %}
+    <div class="menu-grid">
+      {% for it in items %}
+      <div class="item {% if it.is_available %}in-stock{% else %}out-stock{% endif %}">
+        <span>{{ it.name }} — 
+          {% if it.is_available %}
+            <b style="color:#00ff99;">In Stock ✅</b>
+          {% else %}
+            <b style="color:#ff5555;">Out of Stock ❌</b>
+          {% endif %}
+        </span>
+        <form method="post" action="{{ url_for('staff_menu_toggle', item_id=it.id) }}">
+        <button type="submit" class="toggle-btn">Toggle</button>
+      </form>
+
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-items">No menu items found — the kitchen is empty 😢</div>
+    {% endif %}
+
+    <footer>© 2025 QR Dine • Designed by Pandavas 💛</footer>
+  </div>
+</body>
+</html>

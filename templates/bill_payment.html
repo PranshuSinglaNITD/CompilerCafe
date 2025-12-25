@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bill Payment | Compiler Cafe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+        }
+        .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(20, 20, 20, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 183, 0, 0.3);
+            animation: fadeIn 1s ease;
+        }
+        h2 {
+            color: #ffb700;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #ccc;
+        }
+        h3 {
+            margin: 20px 0;
+            color: #ffd700;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 20px 0;
+        }
+        img.qr {
+            width: 200px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        /* Inputs and buttons */
+        select,
+        button {
+            width: 80%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+        select {
+            background: #1a1a1a;
+            color: #fff;
+            cursor: pointer;
+        }
+        button {
+            background: #ffb700;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            user-select: none;
+        }
+        button:hover {
+            background: #ffc933;
+            transform: scale(1.05);
+        }
+
+        /* ⚡ UPI Button */
+        .upi-btn {
+            background: #fff;
+            color: #000;
+            font-weight: 600;
+            margin-top: 15px;
+            width: 80%;
+            border-radius: 50px;
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+        .upi-btn img {
+            width: 24px;
+            height: auto;
+            margin-left: 10px;
+        }
+
+        /* ⚡ CARD PAYMENT UI */
+        .card-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            background: rgba(30, 30, 30, 0.9);
+            padding: 22px;
+            border-radius: 14px;
+            width: 90%;
+            box-shadow: 0 0 18px rgba(255, 183, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+        .card-box input {
+            width: 90%;
+            padding: 12px;
+            margin-top: 12px;
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .card-box input:focus {
+            border-color: #ffb700;
+        }
+
+        .small-input {
+            width: 40%;
+        }
+
+        /* Expiry Month Picker */
+        .expiry-input {
+            width: 90%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        .expiry-input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        /* Fade */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        a.back-home {
+            color: #ffb700;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        a.back-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Bill Summary</h2>
+
+        <p><strong>Subtotal:</strong> ₹{{ bill.subtotal }}</p>
+        <p><strong>Tax:</strong> ₹{{ bill.tax_amount }}</p>
+        <p><strong>Discount:</strong> ₹{{ bill.discount }}</p>
+
+        <h3>Total: ₹{{ bill.total_amount }}</h3>
+        <hr />
+
+        <h4>Scan to Pay (UPI)</h4>
+        <img src="{{ url_for('static', filename='images/qr_code.png') }}" alt="QR" class="qr">
+
+        <!-- PAYMENT FORM -->
+        <form method="POST" 
+              id="paymentForm"
+              action="{{ url_for('payment_confirm', session_id=session_id) }}">
+
+            <label><strong>Select Payment Method:</strong></label><br />
+
+            <select name="payment_method" id="payment_method" required>
+                <option value="">--Choose--</option>
+                <option value="cash">Cash</option>
+                <option value="card">Card</option>
+                <option value="upi">UPI</option>
+            </select><br />
+
+            <!-- Default Confirm Button (hidden for card/upi) -->
+            <button type="submit" id="confirmBtn" style="display:none;">Confirm Payment</button>
+
+            <!-- UPI Button -->
+            <button type="submit" class="upi-btn" id="upiBtn">
+                Pay with UPI
+                <img src="{{ url_for('static', filename='images/gpay.jpg') }}" alt="GPay">
+            </button>
+
+            <!-- CARD PAYMENT BOX -->
+            <div class="card-box" id="cardBox">
+                <h3 style="color:#ffb700;">Card Details</h3>
+
+                <input type="text" id="cardName" name="card_name" placeholder="Name on Card" />
+
+                <input type="text" id="cardNumber" name="card_number" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" />
+
+                <label style="width:90%; color:#ccc; font-size:0.9rem; margin-top:10px; text-align:left;">Expiry Date</label>
+                <input type="month" 
+                       id="expiry" 
+                       name="expiry" 
+                       class="expiry-input"
+                       min="2023-01"
+                       max="2050-12"
+                />
+
+                <input type="password" id="cvv" name="cvv" placeholder="CVV" maxlength="3" class="small-input" />
+
+                <!-- Confirm Payment inside card -->
+                <button type="submit" id="cardConfirmBtn">Confirm Payment</button>
+            </div>
+        </form>
+
+        <a href="/" class="back-home">Back to Home</a>
+    </div>
+
+    <script>
+        const methodSelect = document.getElementById('payment_method');
+        const upiBtn = document.getElementById('upiBtn');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cardBox = document.getElementById('cardBox');
+        const cardNumberInput = document.getElementById('cardNumber');
+
+        methodSelect.addEventListener('change', function () {
+            if (this.value === 'upi') {
+                upiBtn.style.display = 'flex';
+                confirmBtn.style.display = 'none';
+                cardBox.style.display = 'none';
+            }
+            else if (this.value === 'card') {
+                cardBox.style.display = 'flex';
+                upiBtn.style.display = 'none';
+                confirmBtn.style.display = 'none';
+            }
+            else {
+                upiBtn.style.display = 'none';
+                cardBox.style.display = 'none';
+                confirmBtn.style.display = 'block';
+            }
+        });
+
+        // Card number masking → XXXX XXXX XXXX 1234
+        cardNumberInput.addEventListener("input", function () {
+            let raw = this.value.replace(/\D/g, "").substring(0, 16);
+            let formatted = "";
+
+            for (let i = 0; i < raw.length; i++) {
+                formatted += (i < raw.length - 4) ? "X" : raw[i];
+                if ((i + 1) % 4 === 0 && i !== 15) formatted += " ";
+            }
+
+            this.value = formatted;
+        });
+    </script>
+
+</body>
+</html>

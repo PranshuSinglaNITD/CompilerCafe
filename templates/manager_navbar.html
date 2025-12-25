@@ -1,0 +1,133 @@
+<style>
+/* NAVBAR */
+.navbar {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    padding: 16px 30px; /* REDUCED padding Right */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 0 12px rgba(255,204,51,0.15);
+}
+
+/* Logo clickable */
+.nav-brand a {
+    font-size: 1.6rem;
+    color: #ffcc33;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-shadow: 0 0 12px rgba(255,204,51,0.5);
+}
+
+/* LINKS container */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px; /* more spacing */
+}
+
+/* Nav links */
+.nav-links a.nav-item {
+    font-size: 1.05rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: 0.25s;
+}
+
+.nav-links a.nav-item:hover {
+    color: #ffcc33;
+    text-shadow: 0 0 10px rgba(255,204,51,0.7);
+}
+
+/* Logout Button */
+.logout-btn {
+    background: #ff4444;
+    padding: 10px 45px; /* MORE padding = better visibility */
+    border-radius: 10px;
+    color: white !important;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap; /* prevents shrinking */
+    transition: 0.25s;
+    box-shadow: 0 0 12px rgba(255,68,68,0.4);
+}
+
+.logout-btn:hover {
+    background: #ff2222;
+    transform: scale(1.05);
+}
+
+/* BRAND LINK WRAPPER */
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+/* BRAND LOGO IMAGE */
+.brand-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(255,204,51,0.4);
+    transition: 0.3s ease;
+}
+
+/* BRAND TEXT */
+.brand-name {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #ffcc33;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255,204,51,0.5);
+    transition: 0.3s;
+}
+
+/* Hover animation */
+.brand-link:hover .brand-logo {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 12px #ffcc33);
+}
+
+.brand-link:hover .brand-name {
+    color: #ffffff;
+    text-shadow: 0 0 14px rgba(255,204,51,0.9);
+}
+
+</style>
+
+
+
+<div class="navbar">
+
+    <!-- CLICKABLE LOGO + BRAND -->
+    <a href="{{ url_for('manager_dashboard') }}" class="brand-link">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="brand-logo" alt="Logo">
+        <span class="brand-name">Compiler Cafe</span>
+    </a>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('manager_menu_page') }}" class="nav-item">Menu</a>
+
+        <a href="{{ url_for('manager_staff_page') }}" class="nav-item">Staff</a>
+
+        <a href="{{ url_for('manager_category_page') }}" class="nav-item">Categories</a>
+
+        <a href="{{ url_for('logout') }}" class="logout-btn"
+           onclick="return confirm('Logout from manager account?');">
+           Logout
+        </a>
+
+    </div>
+</div>
+

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manager Dashboard | Compiler Cafe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #080f1a;
+        font-family: Poppins, sans-serif;
+        color: #fff;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #ffcc33;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        text-shadow: 0 0 10px rgba(255,204,51,0.6);
+    }
+
+    .grid {
+        display: grid;
+        gap: 30px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+        background: #111823;
+        padding: 35px;
+        border-radius: 18px;
+        box-shadow: 0 0 20px rgba(255,204,51,0.15);
+        transition: 0.25s;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px rgba(255,204,51,0.25);
+    }
+
+    .card h2 {
+        color: #ffcc33;
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+</style>
+</head>
+
+<body>
+{% include 'manager_navbar.html' %}
+<div class="container">
+    <h1>👨‍💼 Manager Dashboard</h1>
+
+    <div class="grid">
+
+        <a href="{{ url_for('manager_staff_page') }}">
+            <div class="card">
+                <h2>👥 Manage Staff</h2>
+                <p>Add / View / Delete Staff Members</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('manager_menu_page') }}">
+            <div class="card">
+                <h2>🍽 Manage Menu</h2>
+                <p>Add / Edit / Delete Menu Items</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('manager_category_page') }}">
+            <div class="card">
+                <h2>📂 Manage Categories</h2>
+                <p>Create / Delete Menu Categories</p>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- 🔥 LAST 8 ORDERS SECTION -->
+<h1 style="margin-top: 50px; font-size: 2rem;">🕒 Recent Orders</h1>
+
+<div class="order-box">
+    {% if last_orders %}
+        {% for o in last_orders %}
+            <div class="order-row">
+                <div>
+                    <strong>Order #{{ o.order_id }}</strong><br>
+                    <small>Table: {{ o.table_number }}</small><br>
+                    <small>Status: {{ o.status }}</small>
+                </div>
+                <div class="time">
+                    {{ o.created_at.strftime("%d %b %Y, %I:%M %p") }}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No recent orders.</p>
+    {% endif %}
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Orders | Compiler Cafe</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: url("https://images.unsplash.com/photo-1601924582971-c8c6b7a6b7a3?auto=format&fit=crop&w=1600&q=80")
+          center/cover no-repeat;
+        color: #fff;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 0;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(20, 20, 20, 0.9);
+        box-shadow: 0 0 10px rgba(255, 183, 0, 0.3);
+        padding: 12px 30px;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      nav .logo {
+        color: #ffb700;
+        font-weight: 700;
+        font-size: 1.5rem;
+      }
+
+      nav .right-links a {
+        color: #ffb700;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 20px;
+        transition: 0.3s;
+      }
+
+      nav .right-links a:hover {
+        color: #fff;
+      }
+
+      .container {
+        position: relative;
+        z-index: 2;
+        max-width: 950px;
+        margin: 120px auto;
+        background: rgba(20, 20, 20, 0.8);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 0 25px rgba(255, 183, 0, 0.25);
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        text-align: center;
+        color: #ffb700;
+        font-size: 2.2rem;
+        margin-bottom: 35px;
+        text-shadow: 0 0 15px rgba(255, 183, 0, 0.4);
+      }
+
+      .session-card {
+        background: rgba(30, 30, 30, 0.95);
+        border-radius: 15px;
+        padding: 25px 20px;
+        margin-bottom: 20px;
+        transition: 0.3s;
+        box-shadow: 0 0 10px rgba(255, 183, 0, 0.1);
+        border: 1px solid rgba(255, 183, 0, 0.2);
+      }
+
+      .session-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(255, 183, 0, 0.4);
+      }
+
+      .session-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .session-header h3 {
+        color: #ffb700;
+        font-size: 1.2rem;
+      }
+
+      .status {
+        font-weight: 600;
+        color: #0f0;
+        background: rgba(0, 255, 0, 0.15);
+        border-radius: 10px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+      }
+
+      .status.inactive {
+        color: #e63946;
+        background: rgba(230, 57, 70, 0.15);
+      }
+
+      .order-list {
+        list-style: none;
+        margin-top: 10px;
+        color: #ccc;
+      }
+
+      .order-list li {
+        background: rgba(50, 50, 50, 0.6);
+        border-radius: 10px;
+        margin-bottom: 8px;
+        padding: 10px 15px;
+        font-size: 0.95rem;
+      }
+
+      .view-orders-btn {
+        display: inline-block;
+        margin-top: 10px;
+        background: #ffb700;
+        color: #000;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .view-orders-btn:hover {
+        background: #ffc933;
+        transform: scale(1.05);
+      }
+      /* Remove the white strip behind the navbar or top section */
+      nav,
+      .navbar,
+      .navbar-light,
+      .bg-light {
+        background: #111 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      body {
+        background: #0a0a0a !important;
+      }
+      .no-sessions {
+        text-align: center;
+        color: #ccc;
+        margin-top: 30px;
+        font-size: 1.1rem;
+      }
+
+      footer {
+        text-align: center;
+        color: #999;
+        margin-top: 40px;
+        font-size: 0.9rem;
+      }
+
+      /* NAVBAR UPDATED FOR LOGO */
+.nav-left {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-logo-img {
+  height: 42px;
+  width: auto;
+  border-radius: 12px;
+  margin-right: 10px;
+  transition: 0.3s ease-in-out;
+}
+
+.nav-left:hover .nav-logo-img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 0, 0.6));
+}
+
+    </style>
+  </head>
+  <body>
+    <nav>
+  <!-- Left clickable logo + text -->
+  <a 
+    href="{{ url_for('menu', session_id=sessions[0].id if sessions else 1) }}"
+    class="nav-left"
+  >
+    <img 
+      src="{{ url_for('static', filename='images/logo.png') }}"
+      alt="Logo"
+      class="nav-logo-img"
+    />
+
+    <div class="logo">Compiler Cafe</div>
+  </a>
+
+  <!-- Right-side links -->
+  <div class="right-links">
+    <a href="{{ url_for('menu', session_id=sessions[0].id if sessions else 1) }}">🍽 Menu</a>
+    <a href="{{ url_for('cart_view') }}">🛒 Cart</a>
+    <a href="{{ url_for('bot_page') }}">🤖Chitti</a>
+    <a href="{{ url_for('logout') }}">🚪 Logout</a>
+  </div>
+</nav>
+
+
+    <div class="container">
+      <h1>Your Sessions & Orders</h1>
+
+      {% if sessions %} {% for ds in sessions %}
+      <div class="session-card">
+        <div class="session-header">
+          <h3>Session #{{ ds.id }} — {{ tables[ds.id] }}</h3>
+          {% if ds.is_active %}
+          <span class="status">Active</span>
+          {% else %}
+          <span class="status inactive">Ended</span>
+          {% endif %}
+        </div>
+
+        <a
+          class="view-orders-btn"
+          href="{{ url_for('view_session_orders', session_id=ds.id) }}"
+          >View Orders 🧾</a
+        >
+
+        {% if orders_map[ds.id] %}
+        <ul class="order-list">
+          {% for o in orders_map[ds.id] %}
+          <li><b>Order #{{ o.id }}</b> — {{ o.status }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endfor %} {% else %}
+      <div class="no-sessions">
+        You have no dining sessions yet. Start one by scanning a QR code!
+      </div>
+      {% endif %}
+
+      <footer>© 2025 QR Dine • Designed by Parth 💛</footer>
+    </div>
+  </body>
+</html>

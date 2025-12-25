@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Login | Compiler Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* 💛 Base Setup */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('https://images.unsplash.com/photo-1601924582971-c8c6b7a6b7a3?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #fff;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 0;
+    }
+
+    /* 🧾 Container */
+    .login-container {
+      position: relative;
+      z-index: 2;
+      background: rgba(25, 25, 25, 0.88);
+      border-radius: 20px;
+      padding: 50px 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 25px rgba(255, 183, 0, 0.25);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ✨ Header */
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #ffb700;
+      margin-bottom: 25px;
+      text-shadow: 0 0 20px rgba(255, 183, 0, 0.4);
+    }
+    p.subtitle {
+      text-align: center;
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+    }
+
+    /* 🔐 Input Fields */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transition: 0.3s;
+    }
+    input::placeholder {
+      color: #bbb;
+    }
+    input:focus {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 10px rgba(255, 183, 0, 0.3);
+    }
+
+    /* 🚪 Button */
+    button {
+      width: 100%;
+      background: #ffb700;
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ffc933;
+      transform: scale(1.05);
+    }
+
+    /* 🖤 Footer */
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: #999;
+      font-size: 0.85rem;
+    }
+
+    /* 🔥 Glowing Line */
+    .glow-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #ffb700, transparent);
+      border-radius: 10px;
+      margin: 10px 0 25px 0;
+      animation: glowMove 2s linear infinite;
+    }
+    @keyframes glowMove {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(1.5); }
+      100% { filter: brightness(1); }
+    }
+    /* ============================= */
+/* ✨ ANIMATED STYLE UPGRADE ✨ */
+/* ============================= */
+
+/* 🔥 Background shimmer animation */
+body::before {
+  background: linear-gradient(120deg, rgba(0,0,0,0.95), rgba(15,15,15,0.9), rgba(0,0,0,0.95));
+  background-size: 200% 200%;
+  animation: bgMove 8s ease-in-out infinite;
+}
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 💨 Floating effect for login box */
+.login-container {
+  animation: floatUp 1.2s ease forwards, glowPulse 3s infinite ease-in-out;
+  transform: translateY(30px);
+}
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(50px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 183, 0, 0.2); }
+  50% { box-shadow: 0 0 35px rgba(255, 183, 0, 0.45); }
+}
+
+/* ✨ Header text glow & entrance */
+h1 {
+  position: relative;
+  animation: fadeSlide 1.2s ease forwards;
+}
+@keyframes fadeSlide {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+h1::after {
+  content: "⚡";
+  color: #ffb700;
+  opacity: 0;
+  margin-left: 5px;
+  animation: sparkle 2s ease-in-out infinite;
+}
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* 🌟 Floating placeholders animation on focus */
+input:focus::placeholder {
+  transform: translateY(-5px);
+  opacity: 0.7;
+  transition: 0.3s ease;
+}
+
+/* 🕺 Button hover glow */
+button {
+  transition: 0.4s ease;
+  box-shadow: 0 0 10px rgba(255, 183, 0, 0.4);
+}
+button:hover {
+  box-shadow: 0 0 25px rgba(255, 183, 0, 0.7);
+  letter-spacing: 0.5px;
+  transform: scale(1.08);
+}
+
+/* 🌈 Glow line wave motion */
+.glow-line {
+  background: linear-gradient(90deg, transparent, #ffb700, #ffcc33, transparent);
+  background-size: 200% auto;
+  animation: moveGlow 2s linear infinite;
+}
+@keyframes moveGlow {
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
+}
+
+/* 💫 Fade-in for footer */
+.footer {
+  animation: fadeInFooter 2.5s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeInFooter {
+  to { opacity: 1; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>👨‍🍳 Staff Login</h1>
+    <div class="glow-line"></div>
+    <p class="subtitle">Enter your staff credentials to access the dashboard</p>
+
+  <form method="post" action="{{ url_for('staff_login') }}">
+
+    <div class="form-group">
+        <input type="email" name="email" placeholder="Email" required />
+    </div>
+    <div class="form-group">
+        <input type="password" name="password" placeholder="Password" required />
+    </div>
+    <button type="submit">Login</button>
+  </form>
+
+
+    <div class="footer">
+      © 2025 Compiler Cafe • Designed by Pandavas 💛
+    </div>
+  </div>
+</body>
+</html>

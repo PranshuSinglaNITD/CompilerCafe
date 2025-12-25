@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Your Bill - Compiler Cafe</title>
+</head>
+
+<body style="font-family: Arial; background:#f5f5f5; padding:20px;">
+    <div style="max-width:600px; margin:auto; background:white; padding:25px; border-radius:10px;">
+
+        <!-- Logo -->
+        <div style="text-align:center; margin-bottom:10px;">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" 
+                 alt="Compiler Cafe Logo"
+                 style="width:70px; height:70px; border-radius:50%; object-fit:cover; margin-bottom:8px;">
+        </div>
+
+        <h2 style="text-align:center; color:#ffb700;">Compiler Cafe</h2>
+        <p style="text-align:center; color:#444; margin-top:-5px;">Thanks for dining with us!</p>
+
+        <hr style="margin:20px 0;">
+
+        <p><strong>Name:</strong> {{ username }}</p>
+        <p><strong>Table:</strong> {{ table.number }}</p>
+        <p><strong>Date & Time:</strong> {{ datetime }}</p>
+        <p><strong>Payment Method:</strong> {{ payment_method|upper }}</p>
+        <p><strong>Session ID:</strong> #{{ session_id }}</p>
+
+        <h3 style="margin-top:25px;">Order Summary</h3>
+        <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;">
+            <tr style="background:#ffb700; color:black;">
+                <th align="left">Item</th>
+                <th>Qty</th>
+                <th align="right">Price</th>
+            </tr>
+
+            {% for i in items %}
+            <tr style="border-bottom:1px solid #ddd;">
+                <td>{{ i.name }}</td>
+                <td align="center">{{ i.quantity }}</td>
+                <td align="right">₹{{ "%.2f"|format(i.price_each * i.quantity) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <hr style="margin:20px 0;">
+
+        <table width="100%">
+            <tr>
+                <td><strong>Subtotal:</strong></td>
+                <td align="right">₹{{ "%.2f"|format(subtotal) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Tax (5%):</strong></td>
+                <td align="right">₹{{ "%.2f"|format(tax) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Total:</strong></td>
+                <td align="right"><strong>₹{{ "%.2f"|format(total) }}</strong></td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <p style="text-align:center; color:#777; font-size:14px;">
+            This is an automated bill.
+            <br><strong>THANK YOU</strong>
+        </p>
+
+    </div>
+</body>
+</html>

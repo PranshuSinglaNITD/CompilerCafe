@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify OTP | Compiler Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family:'Poppins',sans-serif;
+      background:url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      position:relative;
+    }
+
+    body::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(0,0,0,0.7);
+    }
+
+    .auth-container {
+      position:relative; z-index:2;
+      width:100%; max-width:420px; padding:20px;
+    }
+
+    .auth-box {
+      background:rgba(20,20,20,0.9);
+      border-radius:15px;
+      padding:40px 30px;
+      text-align:center;
+      box-shadow:0 0 15px rgba(255,183,0,0.2);
+      animation:fadeIn 1.2s ease;
+    }
+
+    h1 { color:#ffb700; margin-bottom:15px; }
+    p { color:#ccc; margin-bottom:25px; }
+
+    input {
+      width:100%; padding:12px;
+      background:#1a1a1a; border:none;
+      border-radius:8px; color:#fff;
+      outline:none; margin-bottom:20px;
+      text-align:center; font-size:1.2rem;
+      letter-spacing:3px;
+    }
+
+    .btn {
+      width:100%; padding:12px;
+      background:#ffb700; color:#000;
+      font-weight:600; border:none;
+      border-radius:50px; cursor:pointer;
+      transition:.3s;
+    }
+    .btn:hover { background:#ffc933; transform:scale(1.05); }
+
+    @keyframes fadeIn {
+      from{opacity:0; transform:translateY(20px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+  </style>
+
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-box">
+
+      <h1>Email Verification ✨</h1>
+      <p>Enter the OTP sent to <b>{{ email }}</b></p>
+
+      <form method="post" action="{{ url_for('signup_verify') }}">
+        <input type="text" name="otp" maxlength="6" placeholder="Enter OTP" required>
+        <input type="hidden" name="email" value="{{ email }}">
+        <button class="btn">Verify OTP</button>
+      </form>
+
+    </div>
+  </div>
+</body>
+</html>

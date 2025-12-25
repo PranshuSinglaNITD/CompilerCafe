@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment|Compiler Cafe</title>
+</head>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<body>
+    <h1>Pay Now 🤑</h1>
+    <button onclick="payNow()">Pay ₹500</button>
+
+    <script>
+        function payNow() {
+            fetch('/create_order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: 500 })
+            })
+            .then(res => res.json())
+            .then(order => {
+
+                console.log(order); // debug
+
+                var options = {
+                    "key": "{{ key }}",
+                    "amount": order.amount,
+                    "currency": "INR",
+                    "name": "Digital Dining",
+                    "description": "Food Order Payment",
+                    "order_id": order.id,
+                    "handler": function (response) {
+                        window.location.href = "/success";
+                    }
+                };
+
+                var rzp = new Razorpay(options);
+                rzp.open();
+            });
+        }
+    </script>
+    <p>Key = {{ key }}</p>
+
+</body>
+</html>

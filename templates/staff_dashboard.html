@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Dashboard | Compiler Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1600&q=80")
+        center/cover no-repeat;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(15, 15, 15, 0.9);
+      box-shadow: 0 0 15px rgba(255, 183, 0, 0.3);
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffb700;
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+
+    nav .right-links a {
+      color: #ffb700;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 25px;
+      transition: 0.3s;
+    }
+
+    nav .right-links a:hover {
+      color: #fff;
+    }
+
+    .main {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 140px auto;
+      background: rgba(25, 25, 25, 0.85);
+      border-radius: 25px;
+      padding: 60px 50px;
+      box-shadow: 0 0 30px rgba(255, 183, 0, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    /* LEFT: BUTTON PANEL */
+    .left-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 25px;
+    }
+
+    .left-panel h2 {
+      color: #ffb700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px rgba(255, 183, 0, 0.4);
+    }
+
+    .btn {
+      background: #ffb700;
+      color: #000;
+      padding: 15px 35px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(255, 183, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn:hover {
+      background: #ffc933;
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 183, 0, 0.6);
+    }
+
+    /* RIGHT: STAFF PROFILE */
+    .profile {
+      flex: 1;
+      background: rgba(35, 35, 35, 0.9);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 0 25px rgba(255, 183, 0, 0.15);
+      text-align: center;
+      transition: 0.4s;
+    }
+
+    .profile:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 35px rgba(255, 183, 0, 0.4);
+    }
+
+    .profile h2 {
+      color: #ffb700;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255, 183, 0, 0.4);
+    }
+
+    .profile p {
+      color: #ccc;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .emoji {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .main {
+        flex-direction: column;
+        text-align: center;
+      }
+      .left-panel, .profile {
+        align-items: center;
+      }
+      .left-panel {
+        margin-bottom: 40px;
+      }
+    }
+
+    /* LOGO + TEXT WRAPPER */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* LOGO IMAGE */
+.nav-logo-img {
+  height: 42px;
+  width: auto;
+  border-radius: 10px;
+  transition: 0.3s ease-in-out;
+}
+
+/* Hover glow effect */
+.nav-left:hover .nav-logo-img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 0, 0.6));
+}
+
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('staff_orders') }}" class="nav-left">
+  <img src="{{ url_for('static', filename='images/logo.png') }}" 
+       class="nav-logo-img" 
+       alt="Logo">
+
+  <div class="logo">
+    Compiler Cafe
+  </div>
+</a>
+
+    <div class="right-links">
+      <a href="{{ url_for('logout') }}">🚪 Logout</a>
+    </div>
+  </nav>
+
+  <div class="main">
+    <!-- LEFT SIDE BUTTONS -->
+    <div class="left-panel">
+      <h2>Staff Panel</h2>
+      <a href="{{ url_for('staff_orders') }}" class="btn">📦 View Orders</a>
+      <a href="{{ url_for('staff_tables') }}" class="btn">🪑 Table Status</a>
+      <a href="{{ url_for('staff_menu') }}" class="btn">🍽 Menu Availability</a>
+    </div>
+
+    <!-- RIGHT SIDE PROFILE -->
+    <div class="profile">
+      <div class="emoji">👨‍🍳</div>
+      <h2>Welcome, {{ staff.name }}</h2>
+      <p><b>Email:</b> {{ staff.email }}</p>
+      <p><b>ID:</b> {{ staff.id }}</p>
+      <p><b>Role:</b> Staff</p>
+    </div>
+  </div>
+</body>
+</html>

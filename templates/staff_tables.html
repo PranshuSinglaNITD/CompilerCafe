@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Table Status | Compiler Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Poppins", sans-serif;
+      background: url("https://images.unsplash.com/photo-1601924582971-c8c6b7a6b7a3?auto=format&fit=crop&w=1600&q=80")
+        center/cover no-repeat;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 0;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(20, 20, 20, 0.9);
+      box-shadow: 0 0 15px rgba(255, 183, 0, 0.3);
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      backdrop-filter: blur(6px);
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffb700;
+      font-weight: 700;
+      font-size: 1.6rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    nav .logo:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #ffb700, 0 0 20px #ffb700;
+      transform: scale(1.05) rotate(-2deg);
+    }
+
+    nav .right-links a {
+      color: #ffb700;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    nav .right-links a:hover {
+      color: #fff;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 120px;
+      padding-bottom: 60px;
+      background: transparent;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffb700;
+      font-size: 2.3rem;
+      margin-bottom: 40px;
+      text-shadow: 0 0 15px rgba(255, 183, 0, 0.4);
+      letter-spacing: 1px;
+    }
+
+    /* Table Grid */
+    .table-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      width: 85%;
+      max-width: 1100px;
+    }
+
+    .table-card {
+      background: rgba(25, 25, 25, 0.85);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 0 15px rgba(255, 183, 0, 0.15);
+      border: 1px solid rgba(255, 183, 0, 0.25);
+      transition: all 0.3s ease;
+      text-align: center;
+      animation: popIn 0.6s ease-out;
+    }
+
+    .table-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px rgba(255, 183, 0, 0.4);
+    }
+
+    .table-card h2 {
+      font-size: 1.5rem;
+      color: #ffb700;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      font-size: 1rem;
+    }
+
+    /* Available / Occupied styles */
+    .available {
+      color: #00ff99;
+      background: rgba(0, 255, 136, 0.1);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+      border: 1px solid rgba(0, 255, 136, 0.4);
+      animation: pulseGreen 2.5s infinite ease-in-out;
+    }
+
+    .occupied {
+      color: #ff4d4d;
+      background: rgba(255, 77, 77, 0.1);
+      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+      border: 1px solid rgba(255, 77, 77, 0.4);
+      animation: pulseRed 2.5s infinite ease-in-out;
+    }
+
+    footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-top: 60px;
+    }
+
+    /* LOGO + TEXT WRAPPER */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* LOGO IMAGE */
+.nav-logo-img {
+  height: 42px;
+  width: auto;
+  border-radius: 10px;
+  transition: 0.3s ease-in-out;
+}
+
+/* Hover glow animation */
+.nav-left:hover .nav-logo-img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 0, 0.6));
+}
+
+
+    /* animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulseGreen {
+      0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(0, 255, 136, 0.6); }
+    }
+
+    @keyframes pulseRed {
+      0%, 100% { box-shadow: 0 0 15px rgba(255, 77, 77, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(255, 77, 77, 0.6); }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('staff_dashboard') }}" class="nav-left">
+  <img 
+    src="{{ url_for('static', filename='images/logo.png') }}"
+    class="nav-logo-img"
+    alt="Logo"
+  >
+  <div class="logo">Compiler Cafe</div>
+</a>
+
+    <div class="right-links">
+      <a href="{{ url_for('logout') }}">🚪 Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>🪑 Table Status</h1>
+
+    {% if tables %}
+    <div class="table-grid">
+      {% for t in tables %}
+      <div class="table-card {% if t.status == 'available' %}available{% else %}occupied{% endif %}">
+        <h2>Table {{ t.number }}</h2>
+        <div class="status {% if t.status == 'available' %}available{% else %}occupied{% endif %}">
+          {{ t.status | capitalize }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align:center;color:#ccc;">No tables found.</p>
+    {% endif %}
+
+    <footer>© 2025 QR Dine • Designed by Pandavas 💛</footer>
+  </div>
+</body>
+</html>

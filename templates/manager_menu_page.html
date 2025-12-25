@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage Menu | Compiler Cafe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: #080f1a;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+}
+
+/* Section / card */
+.section {
+  background: #111823;
+  padding: 30px;
+  border-radius: 16px;
+  margin: 40px auto;
+  max-width: 1200px;
+  box-shadow: 0 0 20px rgba(255,204,51,0.15);
+}
+
+h2 {
+  color: #ffcc33;
+  font-size: 1.6rem;
+  margin-bottom: 18px;
+  text-shadow: 0 0 10px rgba(255,204,51,0.6);
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 12px;
+  background: #1a2433;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  color: #ddd;
+}
+
+/* Buttons */
+button {
+  background: #ffb700;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ffcc33;
+}
+
+/* Red Delete Button */
+.btn-red {
+  background: #ff4444 !important;
+  color: white !important;
+}
+
+/* Table */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #333;
+}
+
+th {
+  color: #ffcc33;
+}
+
+.menu-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+{% include 'manager_navbar.html' %}
+
+<!-- ADD MENU ITEM -->
+<div class="section">
+  <h2>➕ Add Menu Item</h2>
+
+  <form method="POST" action="{{ url_for('manager_menu_add') }}">
+
+    <input type="text" name="name" placeholder="Item Name" required>
+
+    <input type="text" name="price" placeholder="Price" required>
+
+    <input type="text" name="description" placeholder="Description (optional)">
+
+    <input type="text" name="photo_url" placeholder="Photo Filename (ex: burger.jpg)">
+
+    <select name="category_id" required>
+      <option selected disabled>Select Category</option>
+      {% for c in categories %}
+      <option value="{{ c.id }}">{{ c.name }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit">Add Item</button>
+  </form>
+</div>
+
+<!-- MENU ITEM LIST -->
+<div class="section">
+  <h2>🍽 Menu Items</h2>
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name + Photo</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+
+    {% for i in items %}
+    <tr>
+      <td>{{ i.id }}</td>
+
+      <td>
+        {{ i.name }}
+        {% if i.photo_url %}
+        <br>
+        <img src="{{ url_for('static', filename='menu/' ~ i.photo_url) }}" class="menu-img">
+        {% endif %}
+      </td>
+
+      <td>{{ i.category_name }}</td>
+      <td>₹{{ i.price }}</td>
+
+      <td>{{ "Available" if i.is_available else "Hidden" }}</td>
+
+      <td>
+        <form method="POST" action="{{ url_for('manager_menu_delete', item_id=i.id) }}">
+            <button class="btn-red" onclick="return confirm('Delete this item?')">
+              Delete
+            </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+</body>
+</html>

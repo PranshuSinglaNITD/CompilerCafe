@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compiler Cafe | Welcome</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ===== Background ===== */
+    body {
+      background: url("https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1600&q=80")
+        center/cover no-repeat fixed;
+      color: #fff;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88); /* Darker uniform overlay */
+      z-index: 0;
+    }
+
+    /* ===== Navbar ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(20, 20, 20, 0.95);
+      box-shadow: 0 0 20px rgba(255, 183, 0, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1s ease-in;
+    }
+
+    .logo {
+      color: #ffb700;
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+
+    .logo:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #ffb700, 0 0 20px #ffb700;
+      transform: scale(1.05);
+    }
+
+    nav .nav-links a {
+      color: #ffb700;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 25px;
+      transition: 0.3s;
+    }
+
+    nav .nav-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 8px #ffb700;
+    }
+
+    /* ===== Main Layout ===== */
+    .main {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 130px 50px 60px;
+      min-height: 100vh;
+    }
+
+    /* ===== Left Content ===== */
+    .content {
+      width: 65%;
+      background: rgba(20, 20, 20, 0.95);
+      border-radius: 20px;
+      padding: 50px 40px;
+      box-shadow: 0 0 25px rgba(255, 183, 0, 0.25);
+      backdrop-filter: blur(8px);
+      animation: fadeInUp 1.2s ease-out forwards;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      color: #ffb700;
+      margin-bottom: 10px;
+      text-shadow: 0 0 25px rgba(255, 183, 0, 0.4);
+      opacity: 0;
+      animation: slideDown 1.3s ease-out forwards;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ddd;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeIn 1.4s ease-out 0.4s forwards;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 20px;
+      animation: fadeIn 1.6s ease-out 0.6s forwards;
+      opacity: 0;
+    }
+
+    li {
+      background: rgba(35, 35, 35, 0.9);
+      border: 1px solid rgba(255, 183, 0, 0.15);
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    li:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(255, 183, 0, 0.3);
+    }
+
+    .scan-btn {
+      background: #ffb700;
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .scan-btn:hover {
+      background: #ffc933;
+      transform: scale(1.05);
+    }
+
+    .reserved {
+      color: #ff5555;
+      font-weight: 600;
+    }
+
+    hr {
+      margin: 35px 0;
+      border: none;
+      height: 1px;
+      background: rgba(255, 183, 0, 0.3);
+    }
+
+    footer {
+      margin-top: 25px;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+      opacity: 0;
+      animation: fadeIn 1.6s ease-out 0.8s forwards;
+    }
+
+    /* ===== Right Login Panel ===== */
+    .login-panel {
+      width: 25%;
+      margin-left: 40px;
+      background: rgba(25, 25, 25, 0.95);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 0 25px rgba(255, 183, 0, 0.3);
+      backdrop-filter: blur(6px);
+      text-align: center;
+      animation: fadeInRight 1.8s ease-out 1s forwards;
+      opacity: 0;
+    }
+
+    .login-panel h3 {
+      color: #ffb700;
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+      text-shadow: 0 0 10px rgba(255, 183, 0, 0.4);
+    }
+
+    .login-btn {
+      display: block;
+      margin: 15px auto;
+      border: 2px solid #ffb700;
+      color: #ffb700;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      background: #ffb700;
+      color: #000;
+      box-shadow: 0 0 20px rgba(255, 183, 0, 0.5);
+      transform: scale(1.05);
+    }
+    /* === Logo Image + Text === */
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 12px;
+}
+
+.logo-img {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+.logo-text {
+  color: #ffb700;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.logo-link:hover .logo-text {
+  color: #fff;
+  text-shadow: 0 0 10px #ffb700, 0 0 20px #ffb700;
+  transform: scale(1.05);
+}
+
+.logo-link:hover .logo-img {
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(255, 183, 0, 0.4);
+}
+
+
+    /* ===== Animations ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 950px) {
+      .main {
+        flex-direction: column;
+        align-items: center;
+      }
+      .content {
+        width: 100%;
+      }
+      .login-panel {
+        width: 90%;
+        margin: 40px 0 0;
+      }
+      nav {
+        flex-direction: column;
+        text-align: center;
+      }
+      nav .nav-links a {
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+  <a href="{{ url_for('index') }}" class="logo-link">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img" alt="Compiler Cafe Logo">
+    <span class="logo-text">Compiler Cafe</span>
+  </a>
+  <div class="nav-links">
+    <a href="{{ url_for('staff_login') }}">👨‍🍳Staff Login</a>
+    <a href="{{ url_for('manager_login') }}">🧑‍💼Manager Login</a>
+  </div>
+</nav>
+
+
+  <div class="main">
+    <!-- LEFT CONTENT -->
+    <div class="content">
+      <h1>🍽 Welcome to Compiler Cafe</h1>
+      <p class="subtitle">Your Smart Dining Experience — Scan, Order & Enjoy!</p>
+
+      <ul>
+        {% for t in tables %}
+        <li>
+          <span>Table {{ t.number }} — {{ t.status | capitalize }}</span>
+          {% if t.status == 'available' %}
+          <a href="{{ url_for('scan') }}?table={{ t.number }}" class="scan-btn">📲 Reserve Table</a>
+          {% else %}
+          <span class="reserved">Reserved 🔴</span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+
+      <hr />
+      <footer>© 2025 QR Dine • Designed by Pandavas 💛</footer>
+    </div>
+
+    <!-- RIGHT LOGIN PANEL -->
+    <div class="login-panel">
+      <h3>🔐 Quick Access</h3>
+      <a href="{{ url_for('staff_login') }}" class="login-btn">👨‍🍳 Staff Login</a>
+      <a href="{{ url_for('manager_login') }}" class="login-btn">🧑‍💼 Manager Login</a>
+    </div>
+  </div>
+</body>
+</html>

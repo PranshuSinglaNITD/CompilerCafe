@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage Staff | Compiler Cafe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: #080f1a;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+}
+
+/* Card / Section Style */
+.section {
+  background: #111823;
+  padding: 30px;
+  border-radius: 16px;
+  margin: 40px auto;
+  max-width: 1200px;
+  box-shadow: 0 0 20px rgba(255,204,51,0.15);
+}
+
+h2 {
+  color: #ffcc33;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(255,204,51,0.6);
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #1a2433;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  color: #ddd;
+}
+
+/* Buttons */
+button {
+  background: #ffb700;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ffcc33;
+}
+
+/* Red button */
+.btn-red {
+  background: #ff4444 !important;
+  color: white !important;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+}
+
+th, td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #333;
+}
+
+th {
+  color: #ffcc33;
+  font-size: 1rem;
+}
+
+/* Navbar include spacing fix */
+body > .navbar + .section {
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR (your include file) -->
+{% include 'manager_navbar.html' %}
+
+<div class="section">
+  <h2>➕ Add New Staff</h2>
+
+  <form method="POST" action="{{ url_for('manager_staff_add') }}">
+    <input type="text" name="name" placeholder="Staff Name" required>
+    <input type="email" name="email" placeholder="Staff Email" required>
+    <input type="password" name="password" placeholder="Temporary Password" required>
+
+    <button type="submit">Add Staff</button>
+  </form>
+</div>
+
+<div class="section">
+  <h2>👥 Staff Members</h2>
+
+  <table>
+      <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+      </tr>
+
+      {% for s in staff_list %}
+      <tr>
+          <td>{{ s.id }}</td>
+          <td>{{ s.name }}</td>
+          <td>{{ s.email }}</td>
+
+          <td>
+              <form method="POST" action="{{ url_for('manager_staff_delete', staff_id=s.id) }}">
+                  <button class="btn-red">Delete</button>
+              </form>
+          </td>
+      </tr>
+      {% endfor %}
+  </table>
+
+</div>
+
+</body>
+</html>
